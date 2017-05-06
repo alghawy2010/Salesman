@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Salesman</string>
+    <string name="title_activity_customer_view">CustomerViewActivity</string>
+    <string name="title_activity_map">Google Map</string>
 </resources>

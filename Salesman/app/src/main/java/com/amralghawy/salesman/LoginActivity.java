@@ -1,13 +1,7 @@
 package com.amralghawy.salesman;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +9,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class LoginActivity extends AppCompatActivity implements LocationListener{
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class LoginActivity extends AppCompatActivity{
 
     private final String TAG = LoginActivity.class.getSimpleName();
 
@@ -31,118 +34,95 @@ public class LoginActivity extends AppCompatActivity implements LocationListener
 
     // Create onClick event for Sign-in button
     public void signInBttnOnClick(View view) {
+
         Log.d(TAG, "signInBttnOnClick - Start");
-        // 1- Get current User location
-        // Check if GPS is granted or not
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            // Permission is granted now
-            Log.d(TAG, "signInBttnOnClick - Permission is granted");
-            // Get current user location
 
-            //ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, );
-            LocationManager locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+        // Get User name and Password
+        EditText userName = (EditText) this.findViewById(R.id.userNameEditText);
+        EditText password = (EditText) this.findViewById(R.id.passwordEditText);
 
-            boolean isGPSEnabled = false;
-            boolean isNetworkEnabled = false;
+        if (! userName.getText().toString().isEmpty() && ! password.getText().toString().isEmpty()) {
 
-            isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-            isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            // 2- Prepare JSON request to cloud server and parse response
+            String url = "https://murmuring-peak-26751.herokuapp.com/api/sales_men/sign_in.json";
 
-            Location currentLocation = null;
-            if (isGPSEnabled) {
-                Log.d(TAG, "signInBttnOnClick - GPS Enabled");
-                // Get current location from GPS
-                currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, this);
+            makeJsonObjectRequest(this, url, userName.getText().toString(), password.getText().toString());
 
-                if (currentLocation != null) {
-                    Log.d(TAG, "signInBttnOnClick - Call onLocationChanged method");
-                    onLocationChanged(currentLocation);
-                }
-                else {
-                    Toast.makeText(getBaseContext(), "No Location Provider Found Check Your Code", Toast.LENGTH_SHORT).show();
-                }
-            }
-            else if (isNetworkEnabled) {
-                Log.d(TAG, "signInBttnOnClick - Network Enabled");
-                // Get current location from Network
-                currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            }
-            else {
-                // Error
-                Log.d(TAG, "signInBttnOnClick - GPS and Network are not enabled");
-                return;
-            }
-
-            // Get User name and Password
-            EditText userName = (EditText) this.findViewById(R.id.userNameEditText);
-            EditText password = (EditText) this.findViewById(R.id.passwordEditText);
-
-            // 2- Prepare JSON request to cloud server
-            
-            // 3- Parse JSON response
-
-            // 4- Send response to next activity to display a list of nearby customers
         }
         else {
-            // Location permission is required
-            Log.d(TAG, "signInBttnOnClick - Permission is not granted");
-            // Show Alert to enable location service
-            Toast.makeText(getBaseContext(), "No Service Provider Available", Toast.LENGTH_SHORT).show();
+            // Ask user to enter user name and password to sign-in
+            Log.d(TAG, "signInBttnOnClick - Ask user to enter username and password to sing-in");
 
-            // Ask for permissions
-            // ToDo: What shoud i do if user reject to grant below permission? is below permission enough or internet access also required
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 4);
-
-            /*
-            // Show dialog to enable network and GPS
-            final Context mContext = getBaseContext();
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
-            alertDialog.setTitle("GPS Not Enabled");
-            alertDialog.setMessage("Do you wants to turn On GPS");
-
-
-            alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    mContext.startActivity(intent);
-                }
-            });
-
-
-            alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-             */
+            Toast.makeText(getBaseContext(), "Please enter username and password", Toast.LENGTH_SHORT).show();
         }
+
+
+        // 3- Parse JSON response
+
+        // 4- Send response to next activity to display a list of nearby customer
 
         Log.d(TAG, "signInBttnOnClick - End");
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        Log.d(TAG, "onLocationChanged - Start");
+    private void makeJsonObjectRequest(final Context context, String url, String userName, String password) {
+        Log.d(TAG, "makeJsonObjectRequest - Start");
+        try
+        {
+            final JSONObject signInRq = new JSONObject();
+            JSONObject api_sales_man = new JSONObject();
 
-        EditText text = (EditText) this.findViewById(R.id.userNameEditText);
-        text.setText("Lat: "+ location.getLatitude() + "Long: "+ location.getLongitude());
+            api_sales_man.put("username", userName);
+            api_sales_man.put("password", password);
 
-        Log.d(TAG, "onLocationChanged - End");
+
+            signInRq.put("api_sales_man", api_sales_man);
+
+            Log.d(TAG, "makeJsonObjectRequest - Sign-In JSON Request: "+ signInRq.toString());
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, signInRq,
+
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try
+                            {
+                                // TODO: How to check if your response is successful or not
+
+                                Log.d(TAG, "makeJsonObjectRequest - Sign-In JSON onResponse: "+ response.toString());
+                                VolleyLog.v("Response:%n %s", response.toString(4));
+
+                                // Parse JSON Response
+                                String auth_token = response.getString("auth_token");
+
+                                // Move to next intent - customers list
+                                Intent CustomersListIntent = new Intent(context, CustomersListActivity.class);
+                                CustomersListIntent.putExtra("auth_token", auth_token);
+                                context.startActivity(CustomersListIntent);
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d(TAG, "makeJsonObjectRequest - Sign-In JSON onErrorResponse: "+ error.toString());
+                            VolleyLog.e("Error: ", error.getMessage());
+                        }
+                    }
+
+            );
+
+
+            MyVolley.getInstance(this).addToRequestQueue(jsonObjectRequest);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "makeJsonObjectRequest - Start");
     }
 
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-        //Toast.makeText(MainActivity.this, "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
-    }
 }
