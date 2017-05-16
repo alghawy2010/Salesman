@@ -89,16 +89,21 @@ public class LoginActivity extends AppCompatActivity{
                                 // TODO: How to check if your response is successful or not
 
                                 Log.d(TAG, "makeJsonObjectRequest - Sign-In JSON onResponse: "+ response.toString());
-                                VolleyLog.v("Response:%n %s", response.toString(4));
+//                                VolleyLog.v("Response:%n %s", response.toString(4));
 
                                 // Parse JSON Response
                                 String auth_token = response.getString("auth_token");
 
                                 // Move to next intent - customers list
+                                Toast.makeText(getBaseContext(), "Before Intent call", Toast.LENGTH_SHORT).show();
+                                /*
                                 Intent CustomersListIntent = new Intent(context, CustomersListActivity.class);
                                 CustomersListIntent.putExtra("auth_token", auth_token);
                                 context.startActivity(CustomersListIntent);
+                                */
+                                moveToCustomerListActivity(auth_token);
 
+                                Toast.makeText(getBaseContext(), "After Intent call", Toast.LENGTH_SHORT).show();
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -123,6 +128,12 @@ public class LoginActivity extends AppCompatActivity{
             e.printStackTrace();
         }
         Log.d(TAG, "makeJsonObjectRequest - Start");
+    }
+
+    public void moveToCustomerListActivity(String auth_token) {
+        Intent CustomersListIntent = new Intent(this, CustomersListActivity.class);
+        CustomersListIntent.putExtra("auth_token", auth_token);
+        this.startActivity(CustomersListIntent);
     }
 
 }

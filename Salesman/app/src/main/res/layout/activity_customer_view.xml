@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/darker_gray"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+
+        app:layout_constraintBottom_toTopOf="@+id/customer_table"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/customer_table" />
 
 
     <TableLayout
+        android:id="@+id/customer_table"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -15,14 +32,12 @@
             <TextView
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="Customer ID:"
-                />
+                android:text="Customer ID:" />
 
             <TextView
                 android:id="@+id/customerView_customerId"
                 android:layout_weight="1"
-                android:gravity="left"
-                />
+                android:gravity="left" />
 
         </TableRow>
 
@@ -33,14 +48,12 @@
             <TextView
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="Customer Name:"
-                />
+                android:text="Customer Name:" />
 
             <TextView
                 android:id="@+id/customerView_customerName"
                 android:layout_weight="1"
-                android:gravity="left"
-                />
+                android:gravity="left" />
 
         </TableRow>
 
@@ -51,14 +64,12 @@
             <TextView
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="Customer Longitude:"
-                />
+                android:text="Customer Longitude:" />
 
             <TextView
                 android:id="@+id/customerView_customerLong"
                 android:layout_weight="1"
-                android:gravity="left"
-                />
+                android:gravity="left" />
 
         </TableRow>
 
@@ -69,14 +80,12 @@
             <TextView
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="Customer Latitude:"
-                />
+                android:text="Customer Latitude:" />
 
             <TextView
                 android:id="@+id/customerView_customerLat"
                 android:layout_weight="1"
-                android:gravity="left"
-                />
+                android:gravity="left" />
 
         </TableRow>
 
@@ -87,14 +96,12 @@
             <TextView
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="Customer Zone:"
-                />
+                android:text="Customer Zone:" />
 
             <TextView
                 android:id="@+id/customerView_customerZone"
                 android:layout_weight="1"
-                android:gravity="left"
-                />
+                android:gravity="left" />
 
         </TableRow>
 
@@ -105,14 +112,12 @@
             <TextView
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="Customer Salesman:"
-                />
+                android:text="Customer Salesman:" />
 
             <TextView
                 android:id="@+id/customerView_customerSalesman"
                 android:layout_weight="1"
-                android:gravity="left"
-                />
+                android:gravity="left" />
 
         </TableRow>
 
@@ -123,14 +128,12 @@
             <TextView
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="Customer Status:"
-                />
+                android:text="Customer Status:" />
 
             <TextView
                 android:id="@+id/customerView_customerStatus"
                 android:layout_weight="1"
-                android:gravity="left"
-                />
+                android:gravity="left" />
 
         </TableRow>
 
@@ -141,14 +144,12 @@
             <TextView
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="Customer Last Visit:"
-                />
+                android:text="Customer Last Visit:" />
 
             <TextView
                 android:id="@+id/customerView_customerLastVisit"
                 android:layout_weight="1"
-                android:gravity="left"
-                />
+                android:gravity="left" />
 
         </TableRow>
 
@@ -159,14 +160,12 @@
             <TextView
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="Customer Last Invoice:"
-                />
+                android:text="Customer Last Invoice:" />
 
             <TextView
                 android:id="@+id/customerView_customerLastInvoice"
                 android:layout_weight="1"
-                android:gravity="left"
-                />
+                android:gravity="left" />
 
         </TableRow>
 
@@ -177,14 +176,12 @@
             <TextView
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="Customer Last Transaction Amount:"
-                />
+                android:text="Customer Last Transaction Amount:" />
 
             <TextView
                 android:id="@+id/customerView_customerLastTrxAmt"
                 android:layout_weight="1"
-                android:gravity="left"
-                />
+                android:gravity="left" />
 
         </TableRow>
 
@@ -195,14 +192,12 @@
             <TextView
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="Customer UserDefined 1:"
-                />
+                android:text="Customer UserDefined 1:" />
 
             <TextView
                 android:id="@+id/customerView_customerUserDefined1"
                 android:layout_weight="1"
-                android:gravity="left"
-                />
+                android:gravity="left" />
 
         </TableRow>
 
@@ -213,14 +208,12 @@
             <TextView
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="Customer UserDefined 2:"
-                />
+                android:text="Customer UserDefined 2:" />
 
             <TextView
                 android:id="@+id/customerView_customerUserDefined2"
                 android:layout_weight="1"
-                android:gravity="left"
-                />
+                android:gravity="left" />
 
         </TableRow>
 
@@ -231,14 +224,12 @@
             <TextView
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="Customer UserDefined 3:"
-                />
+                android:text="Customer UserDefined 3:" />
 
             <TextView
                 android:id="@+id/customerView_customerUserDefined3"
                 android:layout_weight="1"
-                android:gravity="left"
-                />
+                android:gravity="left" />
 
         </TableRow>
     </TableLayout>
