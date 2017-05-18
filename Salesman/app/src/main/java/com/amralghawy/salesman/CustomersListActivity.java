@@ -154,14 +154,17 @@ public class CustomersListActivity extends AppCompatActivity implements Location
             Log.d(TAG, "getCurrentLocation - Permission is granted");
 
             LocationManager locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-
+			
+            /*
             Criteria criteria = new Criteria();
             String provider = locationManager.getBestProvider(criteria, false);
             Log.d(TAG, "getCurrentLocation - Best Provider: "+provider);
-
+            */
             boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
+            if (isGPSEnabled || isNetworkEnabled) {
+            /*
             if (isGPSEnabled) {
                 Log.d(TAG, "getCurrentLocation - GPS Enabled");
                 // Get current location from GPS
@@ -180,6 +183,25 @@ public class CustomersListActivity extends AppCompatActivity implements Location
                 Log.d(TAG, "getCurrentLocation - Network Enabled");
                 // Get current location from Network
                 currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+                */
+                List<String> providers = locationManager.getProviders(true);
+                for (String provider : providers) {
+                    locationManager.requestLocationUpdates(provider, 0, 0, this);
+                    Location l = locationManager.getLastKnownLocation(provider);
+                    if (l == null) {
+                        continue;
+                    }
+                    if (currentLocation == null || l.getAccuracy() < currentLocation.getAccuracy()) {
+                        // Found best last known location: %s", l);
+                        currentLocation = l;
+                    }
+                }
+                if (currentLocation == null) {
+                    Log.d(TAG, "getCurrentLocation - CurrentLocation is null");
+                    Toast.makeText(getBaseContext(), "Enable GPS and try again", Toast.LENGTH_SHORT).show();
+                }
+
             }
             else {
                 // Error
@@ -275,6 +297,8 @@ public class CustomersListActivity extends AppCompatActivity implements Location
                     public void onErrorResponse(VolleyError error) {
                         Log.d(TAG, "makeJsonObjectRequest - Sign-In JSON onErrorResponse: "+ error.toString());
                         VolleyLog.e("Error: ", error.getMessage());
+
+                        Toast.makeText(getBaseContext(), "Please try again", Toast.LENGTH_SHORT).show();
                     }
                 }
 

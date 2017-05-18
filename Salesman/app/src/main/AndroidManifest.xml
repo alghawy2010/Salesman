@@ -11,22 +11,25 @@
     <!-- Application Section -->
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_custom_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_custom_launcher"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/AppTheme"
+        >
 
         <!-- Activities Section -->
-        <activity android:name=".LoginActivity">
+        <activity android:name="com.amralghawy.salesman.LoginActivity"
+            android:theme="@style/AppTheme.Dark"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CustomersListActivity" />
-        <activity android:name=".CustomerViewActivity" />
+        <activity android:name=".CustomersListActivity" android:theme="@style/AppTheme.Dark"/>
+        <activity android:name=".CustomerViewActivity" android:theme="@style/AppTheme.Dark" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -41,6 +44,7 @@
 
         <activity
             android:name=".MapActivity"
+            android:theme="@style/AppTheme.Dark"
             android:label="@string/title_activity_map"></activity>
     </application>
 

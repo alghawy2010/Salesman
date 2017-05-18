@@ -11,6 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -38,6 +41,7 @@ import java.util.Map;
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private List<Customer> customerList;
 
     // For logging purpose
     private final String TAG = CustomersListActivity.class.getSimpleName();
@@ -45,7 +49,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate - Start");
-        
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -93,15 +97,76 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // Get List of customer
         Intent intent = getIntent();
-        List<Customer> customerList = (List<Customer>) intent.getSerializableExtra("customerList");
-        Location currentLocation = intent.getParcelableExtra("currentLocation");
 
-        // Center Map around current position
-        LatLng home = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(home).title("You are here"));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(home, 17));
+        if (intent.hasExtra("currentLocation")) {
 
-        AddCustomerInMap(customerList);
+            Location currentLocation = intent.getParcelableExtra("currentLocation");
+
+            // Center Map around current position
+            if (currentLocation != null) {
+                LatLng home = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(home).title("-1"));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(home, 17));
+            }
+        }
+
+        if (intent.hasExtra("customerList"))
+            customerList = (List<Customer>) intent.getSerializableExtra("customerList");
+
+        if (customerList != null || customerList.size() != 0)
+            AddCustomerInMap(customerList);
+
+
+        // Add Info window for markers
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+                                      @Override
+                                      public View getInfoWindow(Marker marker) {
+                                          Log.d(TAG, "getInfoWindow - Start");
+
+
+                                          Log.d(TAG, "getInfoWindow - End");
+                                          return null;
+                                      }
+
+                                      @Override
+                                      public View getInfoContents(Marker marker) {
+                                          Log.d(TAG, "getInfoContents - Start");
+
+                                          View view = getLayoutInflater().inflate(R.layout.map_custom_marker, null);
+
+                                          TextView customerName = (TextView) view.findViewById(R.id.popupCustomerName);
+                                          TextView customerLastTrxAmt = (TextView) view.findViewById(R.id.popupCustomerLastTrxAmt);
+                                          TextView customerLastInvoice = (TextView) view.findViewById(R.id.popupCustomerLastInvoice);
+
+                                          if (marker.getTitle() != null && marker.getTitle().equals("-1")) {
+                                              // Salesman Address
+                                              customerName.setText("You are here");
+                                              ((ViewGroup)customerLastInvoice.getParent()).removeView(customerLastInvoice);
+                                              ((ViewGroup)customerLastTrxAmt.getParent()).removeView(customerLastTrxAmt);
+                                          }
+                                          else {
+                                              int customerIndex = Integer.parseInt(marker.getTitle());
+                                              Customer selectedCustomer = customerList.get(customerIndex);
+
+                                              customerName.setText(selectedCustomer.getName());
+                                              if (selectedCustomer.getLastTrxAmt() != null && !selectedCustomer.getLastTrxAmt().equalsIgnoreCase("null"))
+                                                  customerLastTrxAmt.setText(selectedCustomer.getLastTrxAmt());
+                                              else
+                                                  ((ViewGroup)customerLastTrxAmt.getParent()).removeView(customerLastTrxAmt);
+
+                                              if (selectedCustomer.getLastInvoice() != null && !selectedCustomer.getLastInvoice().equalsIgnoreCase("null"))
+                                                  customerLastInvoice.setText(selectedCustomer.getLastInvoice());
+                                              else
+                                                  ((ViewGroup)customerLastInvoice.getParent()).removeView(customerLastInvoice);
+                                          }
+
+                                          Log.d(TAG, "getInfoContents - End");
+                                          return view;
+                                      }
+                                  }
+
+        );
+
 
         Log.d(TAG, "onMapReady - End");
     }
@@ -113,25 +178,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             LatLng latLng = new LatLng(Double.parseDouble(currentCustomer.getLatitude()), Double.parseDouble(currentCustomer.getLongitude()));
 
-            String title = currentCustomer.getName() + "\n"
-                    + currentCustomer.getId() + "\n"
-                    + currentCustomer.getLastTrxAmt() + "\n"
-                    + currentCustomer.getLastInvoice();
+            String title = i + "";
 
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(latLng);
             markerOptions.title(title);
-            markerOptions.snippet(title);
+
 
             if (currentCustomer.getStatus().equals("1")) {
                 // Black color
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-            }
-            else if (currentCustomer.getStatus().equals("2")) {
+            } else if (currentCustomer.getStatus().equals("2")) {
                 // Gray color
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-            }
-            else if (currentCustomer.getStatus().equals("3")) {
+            } else if (currentCustomer.getStatus().equals("3")) {
                 // Red color
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
             }
@@ -156,11 +216,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        try
-                        {
+                        try {
                             // TODO: How to check if your response is successful or not
 
-                            Log.d(TAG, "logoutBttnOnClick - logout JSON onResponse: "+ response.toString());
+                            Log.d(TAG, "logoutBttnOnClick - logout JSON onResponse: " + response.toString());
                             VolleyLog.v("Response:%n %s", response.toString(4));
 
                             // Parse JSON Response
@@ -180,13 +239,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, "logoutBttnOnClick - logout JSON onErrorResponse: "+ error.toString());
+                        Log.d(TAG, "logoutBttnOnClick - logout JSON onErrorResponse: " + error.toString());
                         VolleyLog.e("Error: ", error.getMessage());
                     }
                 }
 
-        )
-        {
+        ) {
 
             /**
              * Passing some request headers

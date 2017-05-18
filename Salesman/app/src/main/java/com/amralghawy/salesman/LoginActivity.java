@@ -22,6 +22,8 @@ public class LoginActivity extends AppCompatActivity{
 
     private final String TAG = LoginActivity.class.getSimpleName();
 
+    private final String url = "https://murmuring-peak-26751.herokuapp.com/api/sales_men/sign_in.json";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate - Start");
@@ -44,9 +46,8 @@ public class LoginActivity extends AppCompatActivity{
         if (! userName.getText().toString().isEmpty() && ! password.getText().toString().isEmpty()) {
 
             // 2- Prepare JSON request to cloud server and parse response
-            String url = "https://murmuring-peak-26751.herokuapp.com/api/sales_men/sign_in.json";
 
-            makeJsonObjectRequest(this, url, userName.getText().toString(), password.getText().toString());
+            makeJsonObjectRequest(this, userName.getText().toString(), password.getText().toString());
 
         }
         else {
@@ -64,7 +65,7 @@ public class LoginActivity extends AppCompatActivity{
         Log.d(TAG, "signInBttnOnClick - End");
     }
 
-    private void makeJsonObjectRequest(final Context context, String url, String userName, String password) {
+    private void makeJsonObjectRequest(final Context context, String userName, String password) {
         Log.d(TAG, "makeJsonObjectRequest - Start");
         try
         {
@@ -95,7 +96,6 @@ public class LoginActivity extends AppCompatActivity{
                                 String auth_token = response.getString("auth_token");
 
                                 // Move to next intent - customers list
-                                Toast.makeText(getBaseContext(), "Before Intent call", Toast.LENGTH_SHORT).show();
                                 /*
                                 Intent CustomersListIntent = new Intent(context, CustomersListActivity.class);
                                 CustomersListIntent.putExtra("auth_token", auth_token);
@@ -103,7 +103,6 @@ public class LoginActivity extends AppCompatActivity{
                                 */
                                 moveToCustomerListActivity(auth_token);
 
-                                Toast.makeText(getBaseContext(), "After Intent call", Toast.LENGTH_SHORT).show();
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -116,6 +115,8 @@ public class LoginActivity extends AppCompatActivity{
                         public void onErrorResponse(VolleyError error) {
                             Log.d(TAG, "makeJsonObjectRequest - Sign-In JSON onErrorResponse: "+ error.toString());
                             VolleyLog.e("Error: ", error.getMessage());
+
+                            Toast.makeText(getBaseContext(), "Please enter valid username and password", Toast.LENGTH_SHORT).show();
                         }
                     }
 
