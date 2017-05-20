@@ -1,0 +1,329 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginLeft="32dp">
+
+
+
+    <!--<TextView-->
+        <!--android:id="@+id/child_list_item_customer_id"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="4dp"-->
+        <!--android:text="Customer ID" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/child_list_item_customer_name"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="4dp"-->
+        <!--android:text="Latitude" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/child_list_item_customer_latitude"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="4dp"-->
+        <!--android:text="Latitude" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/child_list_item_customer_longitude"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="4dp"-->
+        <!--android:text="Longitude" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/child_list_item_customer_zone"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="4dp"-->
+        <!--android:text="Zone" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/child_list_item_customer_saleman"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="4dp"-->
+        <!--android:text="Saleman" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/child_list_item_customer_status"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="4dp"-->
+        <!--android:text="Status" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/child_list_item_customer_lastVisited"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="4dp"-->
+        <!--android:text="Last Visit" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/child_list_item_customer_lastInvoice"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="4dp"-->
+        <!--android:text="Last Invoice" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/child_list_item_customer_lastTrxAmt"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="4dp"-->
+        <!--android:text="Last Trx Amt" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/child_list_item_customer_userDefined1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="4dp"-->
+        <!--android:text="UserDefined1" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/child_list_item_customer_userDefined2"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="4dp"-->
+        <!--android:text="UserDefined2" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/child_list_item_customer_userDefined3"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="4dp"-->
+        <!--android:text="UserDefined3" />-->
+
+    <TableLayout
+        android:id="@+id/customer_table"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="ID:" />
+
+            <TextView
+                android:id="@+id/child_list_item_customer_id"
+                android:layout_weight="1"
+                android:gravity="left" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="Name:" />
+
+            <TextView
+                android:id="@+id/child_list_item_customer_name"
+                android:layout_weight="1"
+                android:gravity="left" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="Longitude:" />
+
+            <TextView
+                android:id="@+id/child_list_item_customer_longitude"
+                android:layout_weight="1"
+                android:gravity="left" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="Latitude:" />
+
+            <TextView
+                android:id="@+id/child_list_item_customer_latitude"
+                android:layout_weight="1"
+                android:gravity="left" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="Zone:" />
+
+            <TextView
+                android:id="@+id/child_list_item_customer_zone"
+                android:layout_weight="1"
+                android:gravity="left" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="Salesman:" />
+
+            <TextView
+                android:id="@+id/child_list_item_customer_saleman"
+                android:layout_weight="1"
+                android:gravity="left" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="Status:" />
+
+            <TextView
+                android:id="@+id/child_list_item_customer_status"
+                android:layout_weight="1"
+                android:gravity="left" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="Last Visit:" />
+
+            <TextView
+                android:id="@+id/child_list_item_customer_lastVisited"
+                android:layout_weight="1"
+                android:gravity="left" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="Last Invoice:" />
+
+            <TextView
+                android:id="@+id/child_list_item_customer_lastInvoice"
+                android:layout_weight="1"
+                android:gravity="left" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="Last Transaction Amount:" />
+
+            <TextView
+                android:id="@+id/child_list_item_customer_lastTrxAmt"
+                android:layout_weight="1"
+                android:gravity="left" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="UserDefined 1:" />
+
+            <TextView
+                android:id="@+id/child_list_item_customer_userDefined1"
+                android:layout_weight="1"
+                android:gravity="left" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="UserDefined 2:" />
+
+            <TextView
+                android:id="@+id/child_list_item_customer_userDefined2"
+                android:layout_weight="1"
+                android:gravity="left" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="UserDefined 3:" />
+
+            <TextView
+                android:id="@+id/child_list_item_customer_userDefined3"
+                android:layout_weight="1"
+                android:gravity="left" />
+
+        </TableRow>
+    </TableLayout>
+
+
+
+</LinearLayout>

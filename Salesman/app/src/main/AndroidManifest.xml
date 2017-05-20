@@ -28,8 +28,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CustomersListActivity" android:theme="@style/AppTheme.Dark"/>
-        <activity android:name=".CustomerViewActivity" android:theme="@style/AppTheme.Dark" />
+        <activity android:name=".CustomersListActivity" android:theme="@style/AppTheme.White"/>
+        <activity android:name=".CustomerViewActivity" android:theme="@style/AppTheme.White" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -44,7 +44,7 @@
 
         <activity
             android:name=".MapActivity"
-            android:theme="@style/AppTheme.Dark"
+            android:theme="@style/AppTheme.White"
             android:label="@string/title_activity_map"></activity>
     </application>
 

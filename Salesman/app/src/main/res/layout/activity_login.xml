@@ -1,74 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true">
 
-<LinearLayout
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="56dp"
-    android:paddingLeft="24dp"
-    android:paddingRight="24dp">
-
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:src="@drawable/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="256dp"
-        android:layout_marginBottom="24dp"
-        android:layout_gravity="center_horizontal"
-        android:contentDescription=""
-        />
-
-    <!--User Name-->
-    <android.support.design.widget.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="56dp">
 
-        <EditText
-            android:id="@+id/userNameEditText"
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="256dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"
+            android:contentDescription=""
+            android:src="@drawable/logo" />
+
+        <!--User Name-->
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/editTextHintUserName"
-            />
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
 
-    </android.support.design.widget.TextInputLayout>
+            <EditText
+                android:id="@+id/userNameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/editTextHintUserName" />
 
-    <!--Password-->
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText
-            android:id="@+id/passwordEditText"
+        <!--Password-->
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/editTextHintPassword"
-            android:inputType="textPassword"
-            />
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
 
-    </android.support.design.widget.TextInputLayout>
+            <EditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/editTextHintPassword"
+                android:inputType="textPassword" />
 
-
-    <!--Login Button-->
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/buttonTextLogin"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        android:onClick="signInBttnOnClick"
-        />
+        </android.support.design.widget.TextInputLayout>
 
 
-</LinearLayout>
+        <!--Login Button-->
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="24dp"
+            android:onClick="signInBttnOnClick"
+            android:text="@string/buttonTextLogin" />
+
+
+    </LinearLayout>
 </ScrollView>

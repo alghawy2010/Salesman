@@ -4,14 +4,13 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,12 +19,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.amralghawy.salesman.expandablelist.CustomerChild;
-import com.amralghawy.salesman.expandablelist.CustomerExpandableAdapter;
-import com.amralghawy.salesman.expandablelist.CustomerParent;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -33,7 +28,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,20 +39,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CustomersListActivity extends AppCompatActivity implements LocationListener {
+public class CustomersListActivity_old extends AppCompatActivity implements LocationListener {
 
     private List<Customer> customerList = new ArrayList<>();
-
-    private List<ParentObject> customerParentList = new ArrayList<>();
-
     private RecyclerView recyclerView;
-    private CustomerExpandableAdapter customerExpandableAdapter;
+    private CustomerAdapter mAdapter;
     static String authToken;
     private Location currentLocation;
     private final String url = "https://murmuring-peak-26751.herokuapp.com/api/sales_men/near_customers.json";
 
     // For logging purpose
-    private final String TAG = CustomersListActivity.class.getSimpleName();
+    private final String TAG = CustomersListActivity_old.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,17 +65,11 @@ public class CustomersListActivity extends AppCompatActivity implements Location
         // Recycler View controller
         this.recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
-        customerExpandableAdapter = new CustomerExpandableAdapter(this, customerParentList);
-
-
+        mAdapter = new CustomerAdapter(customerList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
-
-        customerExpandableAdapter.setCustomParentAnimationViewId(R.id.parent_list_item_expand_arrow);
-        customerExpandableAdapter.setParentClickableViewAnimationDefaultDuration();
-        customerExpandableAdapter.setParentAndIconExpandOnClick(true);
-
-        this.recyclerView.setAdapter(customerExpandableAdapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
 
         // Get authentication token
         Intent intent = getIntent();
@@ -94,10 +79,8 @@ public class CustomersListActivity extends AppCompatActivity implements Location
         currentLocation = getCurrentLocation();
 
         // Get list of customer near to you
-        if (currentLocation != null) {
+        if (currentLocation != null)
             makeJsonObjectRequest(url, authToken, currentLocation);
-
-        }
 
         // Populate customers list
 
@@ -139,7 +122,7 @@ public class CustomersListActivity extends AppCompatActivity implements Location
     // LocationListener Methods
     @Override
     public void onLocationChanged(Location location) {
-        Log.d(TAG, "Location changed: " + location.getLatitude() + "," + location.getLongitude());
+        Log.d(TAG, "Location changed: "+location.getLatitude()+","+location.getLongitude());
     }
 
     @Override
@@ -163,12 +146,13 @@ public class CustomersListActivity extends AppCompatActivity implements Location
 
         Location currentLocation = null;
         // Check if GPS is granted or not
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        {
             // Permission is granted now
             Log.d(TAG, "getCurrentLocation - Permission is granted");
 
-            LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
+            LocationManager locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+			
             /*
             Criteria criteria = new Criteria();
             String provider = locationManager.getBestProvider(criteria, false);
@@ -216,7 +200,8 @@ public class CustomersListActivity extends AppCompatActivity implements Location
                     Toast.makeText(getBaseContext(), "Enable GPS and try again", Toast.LENGTH_SHORT).show();
                 }
 
-            } else {
+            }
+            else {
                 // Error
                 Log.d(TAG, "getCurrentLocation - GPS and Network are not enabled");
 
@@ -226,7 +211,9 @@ public class CustomersListActivity extends AppCompatActivity implements Location
                 return null;
             }
 
-        } else {
+        }
+        else
+        {
             // Location permission is required
             Log.d(TAG, "getCurrentLocation - Permission is not granted");
 
@@ -249,19 +236,20 @@ public class CustomersListActivity extends AppCompatActivity implements Location
         double lat = currentLocation.getLatitude();
         double lang = currentLocation.getLongitude();
 
-        url += "?long=" + lang + "&lat=" + lat;
+        url += "?long="+lang+"&lat="+lat;
 
-        Log.d(TAG, "makeJsonObjectRequest - Customer list JSON request: " + url);
+        Log.d(TAG, "makeJsonObjectRequest - Customer list JSON request: "+ url);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
 
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        try {
+                        try
+                        {
                             // TODO: How to check if your response is successful or not
 
-                            Log.d(TAG, "makeJsonObjectRequest - Get Customer List JSON onResponse: " + response.toString());
+                            Log.d(TAG, "makeJsonObjectRequest - Sign-In JSON onResponse: "+ response.toString());
                             VolleyLog.v("Response:%n %s", response.toString(4));
 
                             // Parse JSON Response
@@ -294,26 +282,7 @@ public class CustomersListActivity extends AppCompatActivity implements Location
                             }
 
                             // Display list into recycle view
-//                            mAdapter.notifyDataSetChanged();
-
-                            if (customerList != null && customerList.size() > 0) {
-                                customerParentList.clear();
-                                generateCustomerParents();
-//                                customerExpandableAdapter.notifyDataSetChanged();
-
-                                customerExpandableAdapter = new CustomerExpandableAdapter(getBaseContext(), customerParentList);
-
-
-                                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                                recyclerView.setLayoutManager(mLayoutManager);
-
-                                customerExpandableAdapter.setCustomParentAnimationViewId(R.id.parent_list_item_expand_arrow);
-                                customerExpandableAdapter.setParentClickableViewAnimationDefaultDuration();
-                                customerExpandableAdapter.setParentAndIconExpandOnClick(true);
-
-                                recyclerView.setAdapter(customerExpandableAdapter);
-
-                            }
+                            mAdapter.notifyDataSetChanged();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -324,14 +293,15 @@ public class CustomersListActivity extends AppCompatActivity implements Location
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, "makeJsonObjectRequest - Get Customer List JSON onErrorResponse: " + error.toString());
+                        Log.d(TAG, "makeJsonObjectRequest - Sign-In JSON onErrorResponse: "+ error.toString());
                         VolleyLog.e("Error: ", error.getMessage());
 
                         Toast.makeText(getBaseContext(), "Please try again", Toast.LENGTH_SHORT).show();
                     }
                 }
 
-        ) {
+        )
+        {
 
             /**
              * Passing some request headers
@@ -381,10 +351,11 @@ public class CustomersListActivity extends AppCompatActivity implements Location
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
+                        try
+                        {
                             // TODO: How to check if your response is successful or not
 
-                            Log.d(TAG, "logoutBttnOnClick - logout JSON onResponse: " + response.toString());
+                            Log.d(TAG, "logoutBttnOnClick - logout JSON onResponse: "+ response.toString());
                             VolleyLog.v("Response:%n %s", response.toString(4));
 
                             // Parse JSON Response
@@ -404,12 +375,13 @@ public class CustomersListActivity extends AppCompatActivity implements Location
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, "logoutBttnOnClick - logout JSON onErrorResponse: " + error.toString());
+                        Log.d(TAG, "logoutBttnOnClick - logout JSON onErrorResponse: "+ error.toString());
                         VolleyLog.e("Error: ", error.getMessage());
                     }
                 }
 
-        ) {
+        )
+        {
 
             /**
              * Passing some request headers
@@ -429,38 +401,4 @@ public class CustomersListActivity extends AppCompatActivity implements Location
         Log.d(TAG, "logoutBttnOnClick - End");
     }
 
-    private void generateCustomerParents() {
-        Log.d(TAG, "generateCustomerParents - Start");
-
-        for (Customer customer : this.customerList) {
-            ArrayList<Object> childList = new ArrayList<>();
-
-            CustomerChild customerChild = new CustomerChild();
-            customerChild.setId(customer.getId());
-            customerChild.setName(customer.getName());
-            customerChild.setLatitude(customer.getLatitude());
-            customerChild.setLongitude(customer.getLongitude());
-            customerChild.setZone(customer.getZone());
-            customerChild.setSaleman(customer.getSaleman());
-            customerChild.setStatus(customer.getStatus());
-            customerChild.setLastVisited(customer.getLastVisited());
-            customerChild.setLastInvoice(customer.getLastInvoice());
-            customerChild.setLastTrxAmt(customer.getLastTrxAmt());
-            customerChild.setUserDefined1(customer.getUserDefined1());
-            customerChild.setUserDefined2(customer.getUserDefined2());
-            customerChild.setUserDefined3(customer.getUserDefined3());
-
-            childList.add(customerChild);
-
-            CustomerParent customerParent = new CustomerParent();
-            customerParent.setCustomerName(customer.getName());
-            customerParent.setChildObjectList(childList);
-            this.customerParentList.add(customerParent);
-        }
-        Log.d(TAG, "generateCustomerParents - Parent list size = " + this.customerParentList.size());
-
-        Log.d(TAG, "generateCustomerParents - End");
-    }
-
 }
-

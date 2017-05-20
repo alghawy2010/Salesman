@@ -1,10 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
     <!-- "Mark Favorite", should appear as action button if possible -->
     <item
         android:id="@+id/action_refresh"
-        android:title="action_favorite"
+        android:title="action_refresh"
         android:icon="@drawable/ic_refresh"
         app:showAsAction="ifRoom"
         android:visible="false" />
@@ -13,6 +14,8 @@
     <item android:id="@+id/action_settings"
         android:title="logout"
         app:showAsAction="never"
-        android:onClick="logoutBttnOnClick"/>
+        android:onClick="logoutBttnOnClick"
+
+        />
 
 </menu>
